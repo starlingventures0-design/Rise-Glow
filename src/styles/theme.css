@@ -1,0 +1,37 @@
+/* ============================================================
+   Glow & Rise - نظام الألوان
+   ============================================================ */
+@import "tailwindcss";
+
+@theme {
+  /* الوردي - اللون الأساسي */
+  --color-rose-50: #fff1f6;
+  --color-rose-100: #ffe0ec;
+  --color-rose-200: #ffc2d9;
+  --color-rose-300: #ff94bb;
+  --color-rose-400: #ff5f9e;
+  --color-rose-500: #f5347f;
+  --color-rose-600: #d81b69;
+  --color-rose-700: #b31256;
+
+  /* البنفسجي - اللون الثانوي */
+  --color-violet-50: #f6f1fe;
+  --color-violet-100: #ece0fd;
+  --color-violet-200: #d8c2fb;
+  --color-violet-300: #bd94f7;
+  --color-violet-400: #a066f0;
+  --color-violet-500: #8a3ee6;
+  --color-violet-600: #7228c9;
+  --color-violet-700: #5c1ea3;
+
+  /* أبيض / خلفيات */
+  --color-cream: #fffaf9;
+
+  --font-display: "Tajawal", "Cairo", sans-serif;
+}
+
+body {
+  font-family: var(--font-display);
+  background-color: var(--color-cream);
+  direction: rtl;
+  }

@@ -231,7 +231,16 @@ export default function RegisterPage() {
             {loading ? "جاري إنشاء حسابك..." : "انضمي الآن"}
           </button>
         </form>
-
+{/* رابط لمن عندها حساب بالفعل */}
+<div className="text-center mt-4">
+  <button
+    type="button"
+    onClick={() => navigate("/")}
+    className="text-sm text-violet-500"
+  >
+    عندك حساب بالفعل؟ سجّلي دخولك
+  </button>
+</div>
         {/* زر صغير مخفي للدخول للوحة التحكم */}
         <div className="text-center mt-6">
           <button

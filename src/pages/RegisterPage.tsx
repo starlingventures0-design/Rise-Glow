@@ -109,7 +109,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         {/* الترويسة */}
         <div className="text-center mb-8">
-          <img src="/1784951516838.png" alt="Glow & Rise" className="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-lg shadow-rose-200" />
+          <img src="/1784951516838.png" alt="Glow & Rise" className="h-28 w-auto mx-auto mb-3 object-contain" />
           <h1 className="text-2xl font-bold text-violet-700">عالم رانيا للفتيات</h1>
           <p className="text-rose-500 text-sm mt-1">انضمي لمجتمعنا وابدئي رحلتك</p>
         </div>

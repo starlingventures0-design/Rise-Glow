@@ -80,16 +80,6 @@ app.get("/api/admin/pending-girls", requireAdmin, async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
 });
-
-app.post("/api/admin/girls/:id/approve", requireAdmin, async (req, res) => {
-  const { error } = await supabaseAdmin
-    .from("girls")
-    .update({ status: "approved" })
-    .eq("id", req.params.id);
-  if (error) return res.status(500).json({ error: error.message });
-  res.json({ success: true });
-});
-
 app.post("/api/admin/girls/:id/ban", requireAdmin, async (req, res) => {
   const { error } = await supabaseAdmin
     .from("girls")

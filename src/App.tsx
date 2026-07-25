@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import CommunityPage from "./pages/CommunityPage";
 import MessagesListPage from "./pages/MessagesListPage";
@@ -11,7 +12,6 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import BottomNav from "./components/BottomNav";
 
-// الصفحات اللي يظهر فيها شريط التنقل السفلي (صفحات الفتاة الأساسية فقط)
 const PAGES_WITH_NAV = ["/home", "/community", "/messages", "/leaderboard", "/profile"];
 
 function Layout() {
@@ -21,7 +21,8 @@ function Layout() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<RegisterPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/messages" element={<MessagesListPage />} />

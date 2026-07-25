@@ -40,7 +40,13 @@ function requireAdmin(req, res, next) {
   }
   next();
 }
-
+app.post("/api/admin/login", (req, res) => {
+  const { email, password } = req.body;
+  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+    return res.json({ token: expectedToken() });
+  }
+  return res.status(401).json({ error: "الإيميل أو كلمة المرور غير صحيحة" });
+});
 app.post("/api/admin/girls/:id/approve", requireAdmin, async (req, res) => {
   // نجيب الصورة أول عشان نحذفها من التخزين بعد الموافقة (توفير مساحة)
   const { data: girl, error: fetchError } = await supabaseAdmin

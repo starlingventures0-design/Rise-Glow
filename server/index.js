@@ -41,12 +41,34 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-app.post("/api/admin/login", (req, res) => {
-  const { email, password } = req.body;
-  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-    return res.json({ token: expectedToken() });
+app.post("/api/admin/girls/:id/approve", requireAdmin, async (req, res) => {
+  // نجيب الصورة أول عشان نحذفها من التخزين بعد الموافقة (توفير مساحة)
+  const { data: girl, error: fetchError } = await supabaseAdmin
+    .from("girls")
+    .select("follow_photo_url")
+    .eq("id", req.params.id)
+    .single();
+
+  const { error } = await supabaseAdmin
+    .from("girls")
+    .update({ status: "approved" })
+    .eq("id", req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+
+  // حذف الصورة من bucket "proofs" (لا يوقف العملية لو فشل الحذف)
+  if (!fetchError && girl?.follow_photo_url) {
+    try {
+      const urlParts = girl.follow_photo_url.split("/proofs/");
+      const filePath = urlParts[1];
+      if (filePath) {
+        await supabaseAdmin.storage.from("proofs").remove([filePath]);
+      }
+    } catch (e) {
+      console.error("تعذر حذف صورة إثبات المتابعة:", e);
+    }
   }
-  return res.status(401).json({ error: "الإيميل أو كلمة المرور غير صحيحة" });
+
+  res.json({ success: true });
 });
 
 app.get("/api/admin/pending-girls", requireAdmin, async (req, res) => {

@@ -17,7 +17,7 @@ const supabaseAdmin = createClient(
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-const TOKEN_SECRET = process.env.SUPABASE_SERVICE_ROLE_KEY; // يستخدم فقط لتوليد التوكن محلياً
+const TOKEN_SECRET = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 function expectedToken() {
   return crypto
@@ -26,7 +26,6 @@ function expectedToken() {
     .digest("hex");
 }
 
-// حماية مسارات الأدمن
 function requireAdmin(req, res, next) {
   const token = req.headers["x-admin-token"];
   if (!token || token !== expectedToken()) {
@@ -35,9 +34,6 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-// ------------------------------------------------------------
-// تسجيل دخول الأدمن
-// ------------------------------------------------------------
 app.post("/api/admin/login", (req, res) => {
   const { email, password } = req.body;
   if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
@@ -46,9 +42,6 @@ app.post("/api/admin/login", (req, res) => {
   return res.status(401).json({ error: "الإيميل أو كلمة المرور غير صحيحة" });
 });
 
-// ------------------------------------------------------------
-// جلب الحسابات التي بانتظار مراجعة صورة المتابعة
-// ------------------------------------------------------------
 app.get("/api/admin/pending-girls", requireAdmin, async (req, res) => {
   const { data, error } = await supabaseAdmin
     .from("girls")
@@ -59,9 +52,6 @@ app.get("/api/admin/pending-girls", requireAdmin, async (req, res) => {
   res.json(data);
 });
 
-// ------------------------------------------------------------
-// الموافقة على حساب (الصورة صحيحة)
-// ------------------------------------------------------------
 app.post("/api/admin/girls/:id/approve", requireAdmin, async (req, res) => {
   const { error } = await supabaseAdmin
     .from("girls")
@@ -71,9 +61,6 @@ app.post("/api/admin/girls/:id/approve", requireAdmin, async (req, res) => {
   res.json({ success: true });
 });
 
-// ------------------------------------------------------------
-// حظر حساب (الصورة غير صحيحة أو مخالفة)
-// ------------------------------------------------------------
 app.post("/api/admin/girls/:id/ban", requireAdmin, async (req, res) => {
   const { error } = await supabaseAdmin
     .from("girls")
@@ -83,9 +70,6 @@ app.post("/api/admin/girls/:id/ban", requireAdmin, async (req, res) => {
   res.json({ success: true });
 });
 
-// ------------------------------------------------------------
-// تحذير حساب
-// ------------------------------------------------------------
 app.post("/api/admin/girls/:id/warn", requireAdmin, async (req, res) => {
   const { error } = await supabaseAdmin
     .from("girls")
@@ -95,9 +79,6 @@ app.post("/api/admin/girls/:id/warn", requireAdmin, async (req, res) => {
   res.json({ success: true });
 });
 
-// ------------------------------------------------------------
-// البحث عن فتاة بالاسم أو الاسم السري
-// ------------------------------------------------------------
 app.get("/api/admin/search", requireAdmin, async (req, res) => {
   const q = req.query.q || "";
   const { data, error } = await supabaseAdmin
@@ -109,9 +90,6 @@ app.get("/api/admin/search", requireAdmin, async (req, res) => {
   res.json(data);
 });
 
-// ------------------------------------------------------------
-// عرض ملف فتاة كامل (بروفايل + منشوراتها في المجتمع)
-// ------------------------------------------------------------
 app.get("/api/admin/girls/:id", requireAdmin, async (req, res) => {
   const { data: girl, error: girlError } = await supabaseAdmin
     .from("girls")
@@ -130,9 +108,6 @@ app.get("/api/admin/girls/:id", requireAdmin, async (req, res) => {
   res.json({ girl, posts });
 });
 
-// ------------------------------------------------------------
-// قائمة البلاغات
-// ------------------------------------------------------------
 app.get("/api/admin/reports", requireAdmin, async (req, res) => {
   const { data, error } = await supabaseAdmin
     .from("reports")
@@ -146,9 +121,6 @@ app.get("/api/admin/reports", requireAdmin, async (req, res) => {
   res.json(data);
 });
 
-// ------------------------------------------------------------
-// عرض المحادثة الكاملة بين طرفي بلاغ معيّن
-// ------------------------------------------------------------
 app.get("/api/admin/reports/:id/conversation", requireAdmin, async (req, res) => {
   const { data: report, error: reportError } = await supabaseAdmin
     .from("reports")
@@ -169,11 +141,8 @@ app.get("/api/admin/reports/:id/conversation", requireAdmin, async (req, res) =>
   res.json(messages);
 });
 
-// ------------------------------------------------------------
-// اتخاذ قرار بشأن بلاغ (حظر المُبلَّغ عنها أو رفض البلاغ)
-// ------------------------------------------------------------
 app.post("/api/admin/reports/:id/resolve", requireAdmin, async (req, res) => {
-  const { action } = req.body; // "ban" أو "dismiss"
+  const { action } = req.body;
 
   const { data: report, error: reportError } = await supabaseAdmin
     .from("reports")

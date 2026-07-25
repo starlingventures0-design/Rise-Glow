@@ -33,9 +33,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-b from-rose-50 via-cream to-violet-50 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-rose-400 to-violet-400 text-white text-2xl shadow-lg shadow-rose-200 mb-3">
-            🌸
-          </div>
+          <img src="/1784951516838.png" alt="Glow & Rise" className="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-lg shadow-rose-200" />
           <h1 className="text-2xl font-bold text-violet-700">أهلاً بعودتك</h1>
           <p className="text-rose-500 text-sm mt-1">سجّلي دخولك لتكملي رحلتك</p>
         </div>

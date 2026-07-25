@@ -2,13 +2,20 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import crypto from "crypto";
+import path from "path";
+import { fileURLToPath } from "url";
 import { createClient } from "@supabase/supabase-js";
 
 dotenv.config();
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// عرض ملفات الموقع المبنية (React) من مجلد dist
+app.use(express.static(path.join(__dirname, "..", "dist")));
 
 const supabaseAdmin = createClient(
   process.env.VITE_SUPABASE_URL,
@@ -165,6 +172,11 @@ app.post("/api/admin/reports/:id/resolve", requireAdmin, async (req, res) => {
   if (updateError) return res.status(500).json({ error: updateError.message });
 
   res.json({ success: true });
+});
+
+// أي رابط غير /api يوديه لصفحة الموقع الرئيسية (عشان React Router يتحكم بالتنقل)
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "dist", "index.html"));
 });
 
 const PORT = process.env.PORT || 3001;

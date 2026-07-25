@@ -10,6 +10,7 @@ import LeaderboardPage from "./pages/LeaderboardPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import RaniaRecipesPage from "./pages/RaniaRecipesPage";
 import BottomNav from "./components/BottomNav";
 
 const PAGES_WITH_NAV = ["/home", "/community", "/messages", "/leaderboard", "/profile"];
@@ -31,6 +32,7 @@ function Layout() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/admin-login" element={<AdminLoginPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/recipes" element={<RaniaRecipesPage />} />
       </Routes>
       {showNav && <BottomNav />}
     </>
@@ -43,4 +45,4 @@ export default function App() {
       <Layout />
     </BrowserRouter>
   );
-}
+  }

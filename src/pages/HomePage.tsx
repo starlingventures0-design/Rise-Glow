@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import type { Girl, GoalKey, GoalStep } from "../types";
 
@@ -18,6 +19,7 @@ interface StepWithProgress extends GoalStep {
 }
 
 export default function HomePage() {
+  const navigate = useNavigate();
   const [girl, setGirl] = useState<Girl | null>(null);
   const [goals, setGoals] = useState<GoalKey[]>([]);
   const [stepsByGoal, setStepsByGoal] = useState<Record<string, StepWithProgress[]>>({});
@@ -158,6 +160,12 @@ export default function HomePage() {
         <p className="text-rose-500 text-sm">
           {completedSteps} من {totalSteps} مهام أنجزتيها اليوم
         </p>
+        <button
+          onClick={() => navigate("/recipes")}
+          className="mt-3 inline-flex items-center gap-1.5 bg-white border border-rose-200 text-violet-600 text-sm font-medium rounded-full px-4 py-2 shadow-sm"
+        >
+          🌿 وصفات رانيا
+        </button>
       </div>
 
       <div className="px-4 space-y-5 max-w-md mx-auto">
